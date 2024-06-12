@@ -23,4 +23,18 @@ public interface ServeMapper extends BaseMapper<Serve> {
      * @return
      */
     List<ServeResDTO> queryServeListByRegionId(@Param("regionId") Long regionId);
+
+    /**
+     * 区域id和状态查询服务列表
+     * @param regionId
+     * @param status
+     * @return
+     */
+    List<ServeResDTO> queryServeListByRegionIdAndStatus(@Param("regionId") Long regionId, @Param("status") Integer status);
+
+    /**
+     * 服务项id和状态查询服务列表
+     * @param serveItemId 服务项id
+     */
+    List<ServeResDTO> queryServeListByServeItemIdAndStatus(@Param("serveItemId") Long serveItemId, @Param("status") Integer status);
 }
