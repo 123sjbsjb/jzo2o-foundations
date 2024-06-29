@@ -77,6 +77,7 @@ public class ServeItemServiceImpl extends ServiceImpl<ServeItemMapper, ServeItem
      * @return 服务项
      */
     @Override
+    @Transactional
     @CachePut(value = RedisConstants.CacheName.SERVE_ITEM, key = "#id", unless = "#result.activeStatus != 2", cacheManager = RedisConstants.CacheManager.ONE_DAY)
     public ServeItem update(Long id, ServeItemUpsertReqDTO serveItemUpsertReqDTO) {
         //1.更新服务项

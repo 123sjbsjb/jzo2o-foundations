@@ -1,22 +1,54 @@
 package com.jzo2o.foundations.service;
 
 import com.jzo2o.common.model.PageResult;
+import com.jzo2o.foundations.model.domain.Serve;
 import com.jzo2o.foundations.model.dto.request.ServePageQueryReqDTO;
-import com.jzo2o.foundations.model.dto.response.*;
+import com.jzo2o.foundations.model.dto.response.ServeResDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
-import java.math.BigDecimal;
-import java.util.List;
 
 @SpringBootTest
 @Slf4j
 class IServeServiceTest {
     @Resource
     private IServeService serveService;
+
+    //区域服务查询
+    @Test
+    public void test_queryServeByIdCache(){
+        Serve serve = serveService.queryServeByIdCache(1692475249121038338L);
+        Assert.notNull(serve,"服务为空");
+    }
+
+    //服务上架测试
+    @Test
+    public void test_onSale(){
+        //从serve表找一条下架的服务（sale_status  '售卖状态，0：草稿，1下架，2上架',）
+        Serve serve = serveService.onSale(1687401441778552834L);
+        Assert.notNull(serve,"服务为空");
+    }
+
+    //服务下架测试
+    @Test
+    public void test_offSale(){
+        //从serve表找一条上架的服务（sale_status  '售卖状态，0：草稿，1下架，2上架',）
+        Serve serve = serveService.offSale(1687401441778552834L);
+        Assert.notNull(serve,"服务为空");
+    }
+
+    //区域服务查询
+    @Test
+    public void test_queryServeByIdCache2(){
+        //指定一个不存在serve表的id
+        Serve serve = serveService.queryServeByIdCache(123L);
+        Assert.notNull(serve,"服务为空");
+    }
+
+
 
     //分页测试
     @Test

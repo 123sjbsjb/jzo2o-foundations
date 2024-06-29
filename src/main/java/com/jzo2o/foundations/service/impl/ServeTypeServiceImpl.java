@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jzo2o.api.foundations.dto.response.ServeTypeSimpleResDTO;
 import com.jzo2o.common.expcetions.ForbiddenOperationException;
 import com.jzo2o.common.model.PageResult;
+import com.jzo2o.foundations.constants.RedisConstants;
 import com.jzo2o.foundations.enums.FoundationStatusEnum;
 import com.jzo2o.foundations.mapper.ServeTypeMapper;
 import com.jzo2o.foundations.model.domain.ServeType;
@@ -23,6 +24,8 @@ import com.jzo2o.foundations.service.IServeItemService;
 import com.jzo2o.foundations.service.IServeSyncService;
 import com.jzo2o.foundations.service.IServeTypeService;
 import com.jzo2o.mysql.utils.PageUtils;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -118,6 +121,10 @@ public class ServeTypeServiceImpl extends ServiceImpl<ServeTypeMapper, ServeType
      */
     @Override
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = RedisConstants.CacheName.JZ_CACHE, key = "'ACTIVE_REGIONS'"),
+            @CacheEvict(value = RedisConstants.CacheName.SERVE_TYPE, key = "#id")
+    })
     public void deactivate(Long id) {
         //查询服务类型
         ServeType serveType = baseMapper.selectById(id);
@@ -192,4 +199,5 @@ public class ServeTypeServiceImpl extends ServiceImpl<ServeTypeMapper, ServeType
         List<ServeType> serveTypeList = baseMapper.selectList(queryWrapper);
         return BeanUtil.copyToList(serveTypeList, ServeTypeSimpleResDTO.class);
     }
+
 }
