@@ -87,4 +87,5 @@ public class FirstPageServeController {
     public ServeAggregationSimpleResDTO findById(@NotNull(message = "id不能为空") @PathVariable("id") Long id) {
         return serveService.findDetailById(id);
     }
+
 }
